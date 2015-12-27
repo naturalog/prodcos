@@ -29,21 +29,23 @@ int main(int argc, char** argv) {
 	const mpreal pi = acos(mpreal(-1)), pi2 = pi/mpreal(2);
 	vector<mpreal> in;
 	while (cin >> r) in.push_back(r);
-	for (auto r : in) cout << r << endl;
+//	for (auto r : in) cout << r << endl;
 	auto f=[in,pi](mpreal t){mpreal r=1; for(auto x:in)r*=cos(x*pi*t); return r;};
 	auto w=[pi2](mpreal t){return tanh(pi2*sinh(t));};
 	auto dw=[pi2](mpreal t){return pi2*cosh(t)*sqr(sech(pi2*sinh(t)));};
 	auto g=[f,w,dw](mpreal t) {return f(w(t))*dw(t);};
 
 	mpreal sum = 0, y, t, c = 0, h;
-	int N = 2 * iters + 1;
+	int N = 2 * iters + 1, sz = in.size();
+	if (prec < sz) { cout << "cant prodcos " << sz << " numbers with prec " << prec << ", should be at least equal" << endl; exit(0); }
 	h = mpreal(1)/mpreal(iters);
+	mpreal max = pow(mpreal(2), sz);
 	for (int m = -N; m != N; ++m) {
-		y = h*g(m*h) - c; // Kahan summation. Beware of compiler optimizations! Don't trust my makefile!
+		y = max*h*g(h*mpreal(m)) - c; // Kahan summation. Beware of compiler optimizations! Don't trust my makefile!
 		t = sum + y;
 		c = (t - sum) - y;
 		sum = t;
-		if (!(m%1000)) cout << m << '/' << N << ' ' << sum << endl;
+	//	if (!(m%1000)) cout << m << '/' << N << ' ' << sum << endl;
 	}
-	cout << (sum/2) << endl;
+	cout << sum << endl;
 }
