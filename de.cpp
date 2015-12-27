@@ -6,6 +6,7 @@
 // see file 'in' for example, it should integrate to 1/16, as maxima:
 // (%i1) 16*integrate(cos(2*x*%pi)*cos(3*x*%pi)*cos(6*x*%pi)*cos(9*x*%pi)*cos(12*x*%pi)*cos(20*x*%pi),x,-1,1);
 // (%o1)                                 1
+// update: now the output is in integers (simply num of partitions), so "de < in" should output 2
 
 #include <mpreal.h> // mpfrc++
 #include <iostream>
@@ -47,5 +48,5 @@ int main(int argc, char** argv) {
 		sum = t;
 	//	if (!(m%1000)) cout << m << '/' << N << ' ' << sum << endl;
 	}
-	cout << sum << endl;
+	cout << (sum/2) << endl;
 }
