@@ -24,7 +24,7 @@ int main(int, char **argv) {
 		cout << x << endl;
 		cerr << s << endl;
 	}
-	s = mpfr::fabs(s);
+	s = mpfr::fabs(s+1);
 	cout << s << endl;
 	cerr << s << endl;
 }

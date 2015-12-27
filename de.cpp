@@ -10,7 +10,7 @@
 #include <vector>
 using namespace mpfr;
 
-std::vector<unsigned long> in;
+std::vector<mpreal> in;
 mpreal pi, pi2;
 size_t sz;
 
@@ -21,17 +21,21 @@ mpreal dw(mpreal t){ return pi2*cosh(t)*sq(sech(pi2*sinh(t))); }
 mpreal g(mpreal t) { return f(w(t))*dw(t); }
 
 int main() {
-	unsigned long r, prec = 0, iters;
-	while (std::cin >> r) { in.push_back(r); prec = std::max(r, prec); }
+	//unsigned long r, prec = 0, iters;
+	unsigned long iters;
+//	mpreal::set_default_prec(1024*64);
+	mpreal r(0, 1024*64), prec(0, 1024*64);
+	while (std::cin >> r) { in.push_back(r); prec = std::max(r, prec); std::cout << r << std::endl; }
 	sz = in.size();
 	prec = ceil(log2(prec));
-	prec = 1 + std::max(prec, in.size());
+	prec = 1 + max(prec, in.size());
 	prec += log2(prec);
 	prec *= 4;
 	std::cerr << "prec: " << prec << std::endl;
-	mpreal::set_default_prec(prec);
+	for (size_t n = 0; n < in.size(); ++n) in[n] = mpreal((unsigned long)in[n], (int)prec);
+	mpreal::set_default_prec((int)prec);
 	pi = acos(mpreal(-1)), pi2 = pi/mpreal(2);
-	iters = prec * prec;
+	iters = (int)(prec * prec);
 //	std::cout.precision(prec);
 
 	mpreal sum = 0, y, t, c = 0, h;
@@ -44,6 +48,6 @@ int main() {
 		c = (t - sum) - y;
 		sum = t;
 	}
-	std::cout << "prec: " << prec << " #PART: " << float(sum) << " 2^(1-n) = " << std::pow(2., 1-(int)in.size()) << std::endl;
+	std::cout << "prec: " << prec << " #PART (less than 1 supposed to be unpart): " << float((std::pow(2., (int)in.size()-2)) * sum) <</* " 2^(1-n) = " << std::pow(2., 1-(int)in.size()) <<*/ std::endl;
 	return 0;
 }
