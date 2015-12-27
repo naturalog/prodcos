@@ -18,14 +18,19 @@ using std::cout;
 using std::endl;
 using std::vector;
 using namespace mpfr;
+mpreal sq(const mpreal& x) { return x*x; }
 
 int main(int argc, char** argv) {
 	long prec;
-	cin >> prec;
+//	cin >> prec;
 //	cin >> iters;
 	vector<unsigned long> in;
-	unsigned long r;
-	while (cin >> r) in.push_back(r);
+	unsigned long r, mx = 0;
+	while (cin >> r) { in.push_back(r); mx = std::max(r, mx); }
+	mx = ceil(log2(mx));
+	mx = 13 + std::max(mx, in.size());
+	mx += log2(mx);
+	mx *= 16;
 	auto go = [in](size_t prec) {
 		size_t iters;
 		mpreal::set_default_prec(prec);
@@ -37,7 +42,7 @@ int main(int argc, char** argv) {
 	//	for (auto r : in) cout << r << endl;
 		auto f=[in,pi](mpreal t){mpreal r=1; for(auto x:in)r*=cos(x*pi*t); return r;};
 		auto w=[pi2](mpreal t){return tanh(pi2*sinh(t));};
-		auto dw=[pi2](mpreal t){return pi2*cosh(t)*sqr(sech(pi2*sinh(t)));};
+		auto dw=[pi2](mpreal t){return pi2*cosh(t)*sq(sech(pi2*sinh(t)));};
 		auto g=[f,w,dw](mpreal t) {return f(w(t))*dw(t);};
 
 		mpreal sum = 0, y, t, c = 0, h;
@@ -46,15 +51,16 @@ int main(int argc, char** argv) {
 		h = mpreal(1)/mpreal(iters);
 		mpreal max = pow(mpreal(2), sz);
 		for (int m = -N; m != N; ++m) {
-			y = max*h*g(h*mpreal(m)) - c; // Kahan summation. Beware of compiler optimizations! Don't trust my makefile!
+			y = /*max**/h*g(h*mpreal(m)) - c; // Kahan summation. Beware of compiler optimizations! Don't trust my makefile!
 			t = sum + y;
 			c = (t - sum) - y;
 			sum = t;
 		//	if (!(m%1000)) cout << m << '/' << N << ' ' << sum << endl;
 		}
-		cout << "prec: " << prec << " #PART: " << (sum/2) << endl;
+		cout << "prec: " << prec << " #PART: " << float(sum) << " 2^-n = " << std::pow(2., -(int)in.size()) << endl;
 	};
-	if (prec>0) go(prec);
-	else for (long p = 8; p <= -prec; ++p) go(p);
+	go(mx);
+//	if (prec>0) go(mx);
+//	else for (long p = 8; p <= -prec; ++p) go(p);
 	return 0;
 }

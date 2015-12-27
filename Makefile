@@ -1,2 +1,2 @@
 all:
-	g++ de.cpp -lmpfr -std=c++11 -ode -O3
+	g++ de.cpp -lmpfr -std=c++11 -ode -O0
