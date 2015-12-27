@@ -34,7 +34,7 @@ int main() {
 	std::cerr << "prec: " << prec << std::endl;
 	for (size_t n = 0; n < in.size(); ++n) in[n] = mpreal((unsigned long)in[n], (int)prec);
 	pi = acos(mpreal(-1)), pi2 = pi/mpreal(2);
-	iters = (int)(prec * 16);
+	iters = (int)(prec * 64);
 //	std::cout.precision(prec);
 
 	mpreal sum = 0, y, t, c = 0, h;
@@ -48,5 +48,6 @@ int main() {
 		sum = t;
 	}
 	std::cout << "prec: " << prec << " #PART (less than 1 supposed to be unpart): " << float((std::pow(2., (int)in.size()-2)) * sum) <</* " 2^(1-n) = " << std::pow(2., 1-(int)in.size()) <<*/ std::endl;
+	std::cout << (exp(-mpreal(iters)) + (mpreal(1)+mpreal(1)/h)*exp(-exp(mpreal(iters)-1)/acos(-1))) << std::endl;
 	return 0;
 }
