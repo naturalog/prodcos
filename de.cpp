@@ -1,13 +1,8 @@
 // This is a #PART solver based on Double Exponential numerical integration.
 // Usage: de reads from stdin. 
-// first line is "prec", number of bits to hold the numbers all alongthe run.
-// if prec<0, the program simply prints all results from prec=2 to -prec
-// next lines contain one number each, the
-// partition problem's input.
 // see file 'in' for example, it should integrate to 1/16, as maxima:
 // (%i1) 16*integrate(cos(2*x*%pi)*cos(3*x*%pi)*cos(6*x*%pi)*cos(9*x*%pi)*cos(12*x*%pi)*cos(20*x*%pi),x,-1,1);
 // (%o1)                                 1
-// update: now the output is in integers (simply num of partitions), so "de < in" should output 2
 
 #include <mpreal.h> // mpfrc++
 #include <iostream>
@@ -28,13 +23,13 @@ int main(int argc, char** argv) {
 	unsigned long r, mx = 0;
 	while (cin >> r) { in.push_back(r); mx = std::max(r, mx); }
 	mx = ceil(log2(mx));
-	mx = 13 + std::max(mx, in.size());
+	mx = 1 + std::max(mx, in.size());
 	mx += log2(mx);
-	mx *= 16;
+	mx *= 3;
 	auto go = [in](size_t prec) {
 		size_t iters;
 		mpreal::set_default_prec(prec);
-		iters = prec;
+		iters = prec * 16;
 		cout.precision(prec);
 
 		mpreal r;
