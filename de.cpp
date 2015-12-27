@@ -1,7 +1,6 @@
 // This is a #PART solver based on Double Exponential numerical integration.
 // Usage: de reads from stdin. 
 // first line is "prec", number of bits to hold the numbers all alongthe run.
-// second line is the number of samples of the integrand.
 // next lines contain one number each, the
 // partition problem's input.
 // see file 'in' for example, it should integrate to 1/16, as maxima:
