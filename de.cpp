@@ -27,10 +27,11 @@ int main() {
 	prec = ceil(log2(prec));
 	prec = 1 + std::max(prec, in.size());
 	prec += log2(prec);
-	prec *= 3;
+	prec *= 4;
+	std::cerr << "prec: " << prec << std::endl;
 	mpreal::set_default_prec(prec);
 	pi = acos(mpreal(-1)), pi2 = pi/mpreal(2);
-	iters = prec * 16;
+	iters = prec * 32;
 //	std::cout.precision(prec);
 
 	mpreal sum = 0, y, t, c = 0, h;
