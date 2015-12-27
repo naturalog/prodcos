@@ -23,7 +23,7 @@ mpreal g(mpreal t) { return f(w(t))*dw(t); }
 int main() {
 	unsigned long iters, prec;
 	std::cin >> prec; // first line is prec
-	prec *= prec;
+	prec *= 8;
 	mpreal::set_default_prec((int)prec);
 	mpreal r;
 	while (std::cin >> r) { in.push_back(r); prec = (int)max(ceil(log2(r)), prec); std::cout << r << std::endl; }
@@ -34,7 +34,7 @@ int main() {
 	std::cerr << "prec: " << prec << std::endl;
 	for (size_t n = 0; n < in.size(); ++n) in[n] = mpreal((unsigned long)in[n], (int)prec);
 	pi = acos(mpreal(-1)), pi2 = pi/mpreal(2);
-	iters = (int)(prec * 64);
+	iters = (int)(prec * prec);
 //	std::cout.precision(prec);
 
 	mpreal sum = 0, y, t, c = 0, h;
