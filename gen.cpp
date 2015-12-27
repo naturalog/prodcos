@@ -18,6 +18,7 @@ int main(int, char **argv) {
 	mpreal M = pow(mpreal(2), sz);
 	cout.precision(sz*2);
 	mpreal x, s = 0;
+	cout << (8+sz) << endl;
 	for (int n = 0; n < sz-1; ++n) {
 		cerr << (x = ceil(M*mpfr::random())) << '\t';
 		s += pow(-1,rand())*x;

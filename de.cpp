@@ -21,21 +21,20 @@ mpreal dw(mpreal t){ return pi2*cosh(t)*sq(sech(pi2*sinh(t))); }
 mpreal g(mpreal t) { return f(w(t))*dw(t); }
 
 int main() {
-	//unsigned long r, prec = 0, iters;
-	unsigned long iters;
-//	mpreal::set_default_prec(1024*64);
-	mpreal r(0, 1024*64), prec(0, 1024*64);
-	while (std::cin >> r) { in.push_back(r); prec = std::max(r, prec); std::cout << r << std::endl; }
+	unsigned long iters, prec;
+	std::cin >> prec; // first line is prec
+	prec *= prec;
+	mpreal::set_default_prec((int)prec);
+	mpreal r;
+	while (std::cin >> r) { in.push_back(r); prec = (int)max(ceil(log2(r)), prec); std::cout << r << std::endl; }
 	sz = in.size();
-	prec = ceil(log2(prec));
-	prec = 1 + max(prec, in.size());
-	prec += log2(prec);
-	prec *= 4;
+//	prec = (int)max(prec, sz) + 1;
+//	prec += log2(prec);
+//	prec *= 16;
 	std::cerr << "prec: " << prec << std::endl;
 	for (size_t n = 0; n < in.size(); ++n) in[n] = mpreal((unsigned long)in[n], (int)prec);
-	mpreal::set_default_prec((int)prec);
 	pi = acos(mpreal(-1)), pi2 = pi/mpreal(2);
-	iters = (int)(prec * prec);
+	iters = (int)(prec * 16);
 //	std::cout.precision(prec);
 
 	mpreal sum = 0, y, t, c = 0, h;
