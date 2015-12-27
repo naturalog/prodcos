@@ -1,2 +1,2 @@
 all:
-	g++ de.cpp -lmpfr -std=c++11 -ode -O0
+	g++ de.cpp -lmpfr -std=c++11 -ode -O0 -W -Wall -Wpedantic
