@@ -31,7 +31,7 @@ int main() {
 	std::cerr << "prec: " << prec << std::endl;
 	mpreal::set_default_prec(prec);
 	pi = acos(mpreal(-1)), pi2 = pi/mpreal(2);
-	iters = prec * 32;
+	iters = prec * prec;
 //	std::cout.precision(prec);
 
 	mpreal sum = 0, y, t, c = 0, h;
@@ -44,6 +44,6 @@ int main() {
 		c = (t - sum) - y;
 		sum = t;
 	}
-	std::cout << "prec: " << prec << " #PART: " << float(sum) << " 2^-n = " << std::pow(2., -(int)in.size()) << std::endl;
+	std::cout << "prec: " << prec << " #PART: " << float(sum) << " 2^(1-n) = " << std::pow(2., 1-(int)in.size()) << std::endl;
 	return 0;
 }
